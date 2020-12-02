@@ -1,4 +1,4 @@
-# OTT 管理平台
+# 基础项目
 
 > - Jenkins: 
 >   - [测试环境](http://jenkins.crofys.cn/view/%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83/job/test-ors-admin-web/)
@@ -16,7 +16,6 @@
 - vue: 3.0.0
 - ant-design-vue: 2.0.0
 - typescript: 3.9.3
-
 ---
 
 ## 本地开发
