@@ -2,7 +2,7 @@
   <a-layout id="layout">
     <!-- 侧边栏 -->
     <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
-      <h1>{{ Config.title }}</h1>
+      <h1>{{ $config.title }}</h1>
       <LayoutMenus />
     </a-layout-sider>
 
@@ -35,7 +35,6 @@ export default defineComponent({
     LayoutHeader,
     MenuFoldOutlined,
   },
-  inject: ["Config"],
   provide: ["collapsed"],
   computed: {},
   data() {

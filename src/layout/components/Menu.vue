@@ -1,6 +1,6 @@
 <script lang="tsx">
 import { reactive, toRefs, inject, defineComponent } from "vue";
-import { routes } from "../../../../config/router.config";
+import { routes } from "@/config/router.config";
 /**
  * @description 渲染 MenuItem
  */

@@ -5,10 +5,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, provide } from "vue";
+import { defineComponent } from "vue";
 import { ConfigProvider } from "ant-design-vue";
 import zhCN from "ant-design-vue/es/locale/zh_CN";
-import Config from "../config/config";
 
 export default defineComponent({
   components: { ConfigProvider },
@@ -19,7 +18,6 @@ export default defineComponent({
   },
   setup() {
     // 将项目Config配置信息 全局注册到组件中
-    provide("Config", Config);
   },
 });
 </script>
