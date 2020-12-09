@@ -1,6 +1,7 @@
 import { createApp } from "vue";
+import { createRouter, createWebHistory } from "vue-router";
+
 import App from "./App.vue";
-import router from "@/config/router.config";
 import store from "./store";
 
 import Antd from "ant-design-vue";
@@ -13,7 +14,7 @@ import ProEllipsis from "@/components/Ellipsis";
 import ProDetail from "@/components/ProDetail";
 // import "@/mock";
 import { createFromIconfontCN } from "@ant-design/icons-vue";
-import Config from "@/config/config";
+import { Routes, Config } from "@dark/config";
 
 const IconFont = createFromIconfontCN({
   scriptUrl: Config.iconUrl,
@@ -21,6 +22,10 @@ const IconFont = createFromIconfontCN({
 
 import stores from "@/common/core/store";
 
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
+  routes: Routes,
+});
 const app = createApp(App)
   .use(store)
   .use(router)

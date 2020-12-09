@@ -1,4 +1,6 @@
 const path = require("path");
+const DefineConfig = require("@crofys/dark-vue");
+// const DefineConfig = require("/Users/xuchangjian/workspace/Plugins/WebpackPlugin/lib/index.cjs");
 
 module.exports = {
   outputDir: "dist",
@@ -45,6 +47,10 @@ module.exports = {
   configureWebpack: {
     resolve: {
       extensions: [".js", ".ts", ".vue", ".json"],
+      alias: {
+        "@dark": path.resolve(__dirname, "./src/.dark/"),
+      },
     },
+    plugins: [new DefineConfig()],
   },
 };

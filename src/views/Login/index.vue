@@ -58,7 +58,7 @@
 <script lang="tsx">
 import { defineComponent, reactive, ref, watch } from "vue";
 import { UserOutlined, LockOutlined } from "@ant-design/icons-vue";
-import { LoginApi } from "@/api";
+import { LoginApi } from "./service";
 import { message } from "ant-design-vue";
 import { mapActions, useStore } from "vuex";
 import { merge, pick } from "lodash";
@@ -137,7 +137,7 @@ export default defineComponent({
           username,
           password,
         });
-        // this.$router.push("/");
+        this.$router.push("/");
       } catch (error) {
         const errMsg = typeof error === "string" ? error : "登录失败";
         message.error(errMsg);

@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "types": ["webpack-env"],
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@dark/*": ["src/.dark/*"],
     },
     "lib": ["ESNext", "dom", "dom.iterable", "scripthost"]
   },
@@ -27,5 +28,5 @@
     "tests/**/*.ts",
     "tests/**/*.tsx"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules","src/.vue/**"]
 }

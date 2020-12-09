@@ -5,4 +5,5 @@ export type TConfigOption = {
     theme?: "light" | "dark";
   };
   iconUrl: string;
+  routes: any[];
 };

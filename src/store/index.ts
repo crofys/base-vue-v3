@@ -1,5 +1,5 @@
 import { Local } from "@/utils/local";
-import Config from "../config/config";
+import { Config } from "@dark/config";
 import { createStore } from "vuex";
 import { merge } from "lodash";
 

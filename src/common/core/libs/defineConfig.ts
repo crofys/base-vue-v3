@@ -8,6 +8,7 @@ const initState: TConfigOption = {
     theme: "dark",
   },
   iconUrl: "",
+  routes: [],
 };
 export const defineConfig = (option: TConfigOption) => {
   return merge(initState, option);

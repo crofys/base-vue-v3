@@ -1,6 +1,6 @@
 <script lang="tsx">
 import { reactive, toRefs, inject, defineComponent } from "vue";
-import { routes } from "@/config/router.config";
+import { Routes } from "@dark/config";
 /**
  * @description 渲染 MenuItem
  */
@@ -72,9 +72,9 @@ function recursiveMenu(menus: any[]) {
  */
 const useFilterMenus = () => {
   const menus = reactive<any[]>([]);
-  const [_routes] = routes?.filter(item => item.name === "index") || [];
+  const [_routes] = Routes?.filter((item: any) => item.name === "index") || [];
 
-  for (const item of routes) {
+  for (const item of Routes) {
     if (item.name === "index" && Array.isArray(_routes?.children)) {
       menus.push(...recursiveMenu(_routes?.children));
     }
