@@ -1,5 +1,8 @@
 <template>
-  <div>首页</div>
+  <div>
+    <p>首页</p>
+    <ProTable></ProTable>
+  </div>
 </template>
 
 <script lang="ts">
