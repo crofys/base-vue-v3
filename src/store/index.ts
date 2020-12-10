@@ -3,6 +3,8 @@ import { Config } from "@dark/config";
 import { createStore } from "vuex";
 import { merge } from "lodash";
 
+import HomeModel from "@/views/Home/model";
+
 const LOCAL_USER_KEY = Config.name + "_USER";
 const INIT_USERS = {
   username: "admin",
@@ -15,6 +17,12 @@ const INIT_STATE = {
 };
 
 export default createStore({
+  modules: {
+    [HomeModel.namespace]: {
+      namespaced: true,
+      ...HomeModel,
+    },
+  },
   state: INIT_STATE,
   mutations: {
     // 设置登陆信息

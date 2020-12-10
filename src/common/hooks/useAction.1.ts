@@ -1,11 +1,8 @@
 import { useStore } from "vuex";
-import { Store } from "@/views/Home/model";
-
-type TActionNames = keyof typeof Store.actions;
 
 type TUseAction = (
   namespace: string,
-  actions: TActionNames[],
+  actions: string[],
 ) => ((payload?: any) => Promise<any>)[];
 
 export const useAction: TUseAction = (namespace, actions) => {

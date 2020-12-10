@@ -6,28 +6,13 @@ export const Routes = [
   {
     "path": "/",
     "name": "index",
-    "component": DefaultLayout,
+    "component": AdminLayout,
     "hidden": false,
     "children": [
       {
-        "path": "/home/",
+        "path": "/home",
         "name": "home",
-        "meta": {
-          "title": "设置管理",
-          "icon": "i-yonghu"
-        },
-        "component": AdminLayout,
-        "children": [
-          {
-            "path": "/home",
-            "name": "home-list",
-            "meta": {
-              "title": "首页",
-              "icon": "i-yonghuliebiao"
-            },
-            "component": ()=> import(/* webpackChunkName: 'home-list' */ '@/views/Home/index.vue')
-          }
-        ]
+        "component": ()=> import(/* webpackChunkName: 'home' */ '@/views/Home/index.vue')
       }
     ]
   },
@@ -40,7 +25,7 @@ export const Routes = [
 
 export const Config = {
   "name": "ZH_ADMIN",
-  "title": "智行和医管理平台",
+  "title": "基础项目",
   "iconUrl": "//at.alicdn.com/t/font_2208356_yexho0qvyoh.js"
 };
 

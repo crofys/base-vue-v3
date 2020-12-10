@@ -1,34 +1,18 @@
 module.exports = {
   name: "ZH_ADMIN",
-  title: "智行和医管理平台",
+  title: "基础项目",
   iconUrl: "//at.alicdn.com/t/font_2208356_yexho0qvyoh.js",
   routes: [
     {
       path: "/",
       name: "index",
-      component: "DefaultLayout",
+      component: "AdminLayout",
       hidden: false,
       children: [
         {
-          path: "/home/",
+          path: "/home",
           name: "home",
-          meta: {
-            title: "设置管理",
-            icon: "i-yonghu",
-          },
-          component: "AdminLayout",
-          children: [
-            // 人员管理 - 列表
-            {
-              path: "/home",
-              name: "home-list",
-              meta: {
-                title: "首页",
-                icon: "i-yonghuliebiao",
-              },
-              component: "Home/index.vue",
-            },
-          ],
+          component: "Home/index.vue",
         },
       ],
     },

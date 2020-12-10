@@ -8,7 +8,7 @@ import Search from "../Search/index";
 
 // 类型文件
 import { TValueType, ISearch } from "../../types/index";
-import { isObject } from "lodash";
+import { isFunction, isObject } from "lodash";
 
 import "./index.less";
 
@@ -59,7 +59,7 @@ export default defineComponent({
 
     const { loading, run } = useRequest(
       async () => {
-        return props.request(params.value);
+        if (isFunction(props.request)) return props?.request(params.value);
       },
       {
         onSuccess(res) {

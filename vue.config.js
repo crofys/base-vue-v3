@@ -1,5 +1,5 @@
 const path = require("path");
-const DefineConfig = require("@crofys/dark-vue");
+const DefineConfig = require("@crofys/dark-define-config");
 // const DefineConfig = require("/Users/xuchangjian/workspace/Plugins/WebpackPlugin/lib/index.cjs");
 
 module.exports = {
@@ -46,9 +46,9 @@ module.exports = {
   // webpack-merge 合并到最终的配置中
   configureWebpack: {
     resolve: {
-      extensions: [".js", ".ts", ".vue", ".json"],
+      extensions: [".js", ".ts", ".vue", ".json", ".tsx"],
       alias: {
-        "@dark": path.resolve(__dirname, "./src/.dark/"),
+        "@dark": path.resolve(__dirname, "src/.dark/"),
       },
     },
     plugins: [new DefineConfig()],

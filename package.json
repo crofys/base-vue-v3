@@ -8,6 +8,8 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@crofys/dark-define-config": "0.0.1",
+    "@crofys/define-config-plugin": "^1.0.4",
     "@types/lodash": "^4.14.161",
     "ant-design-vue": "^2.0.0-rc.3",
     "axios": "^0.20.0",
