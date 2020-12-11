@@ -9,7 +9,7 @@ import "ant-design-vue/dist/antd.css";
 
 import { Routes, Config } from "@dark/config";
 
-import DarkComponents from "./components/dark";
+import DarkComponents from "./components/Darks";
 
 import stores from "@/common/core/store";
 
