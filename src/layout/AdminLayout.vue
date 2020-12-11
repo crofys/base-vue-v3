@@ -1,8 +1,13 @@
 <template>
   <a-layout id="layout">
     <!-- 侧边栏 -->
-    <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
-      <h1>{{ $config.title }}</h1>
+    <a-layout-sider
+      class="layout__sider"
+      v-model:collapsed="collapsed"
+      :trigger="null"
+      collapsible
+    >
+      <h1 class="layout_title">{{ $config.title }}</h1>
       <LayoutMenus />
     </a-layout-sider>
 
@@ -74,13 +79,13 @@ export default defineComponent({
     }
   }
   // 布局 --- 侧边栏
-  .layout-sider {
+  .layout__sider {
     overflow: "auto";
     height: "100vh";
     position: "fixed";
     left: 0;
-    > h1 {
-      background: #fff;
+    .layout_title {
+      color: #fff;
       width: 80%;
       text-align: center;
       margin: 20px auto;

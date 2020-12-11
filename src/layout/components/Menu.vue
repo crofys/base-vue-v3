@@ -33,7 +33,7 @@ const renderSubMenu = (props: any) => {
   const Slots = {
     title: () => (
       <span>
-        <icon-font type={icon} />
+        {icon && <icon-font type={icon} />}
         <span>{title}</span>
       </span>
     ),
@@ -45,41 +45,33 @@ const renderSubMenu = (props: any) => {
 };
 
 /**
- * @description 递归菜单数据
- */
-function recursiveMenu(menus: any[]) {
-  if (!Array.isArray(menus)) return [];
-  const _menus: any[] = [];
-  menus.filter(_menu => {
-    const _children = _menu.children;
-    if (Array.isArray(_children) && _children.length) {
-      // 递归菜单方法 根据children循环遍历数据
-      const _menuResult = recursiveMenu(_children);
-      if (_menuResult && _menuResult.length) {
-        _menu.children = _menuResult;
-      }
-    }
-
-    if (!_menu.hidden) {
-      return _menus.push(_menu);
-    }
-  });
-  return _menus;
-}
-
-/**
  * @description 循环遍历路由 生成菜单数据列表
  */
 const useFilterMenus = () => {
-  const menus = reactive<any[]>([]);
-  const [_routes] = Routes?.filter((item: any) => item.name === "index") || [];
+  /**
+   * @description 递归菜单数据
+   */
+  function recursiveMenu(menus: any[]) {
+    if (!Array.isArray(menus)) return [];
+    const _menus: any[] = [];
+    menus.filter(_menu => {
+      const _children = _menu.children;
+      if (Array.isArray(_children) && _children.length) {
+        // 递归菜单方法 根据children循环遍历数据
+        const _menuResult = recursiveMenu(_children);
+        if (_menuResult && _menuResult.length) {
+          _menu.children = _menuResult;
+        }
+      }
 
-  for (const item of Routes) {
-    if (item.name === "index" && Array.isArray(_routes?.children)) {
-      menus.push(...recursiveMenu(_routes?.children));
-    }
+      if (_menu.meta && _menu.meta.title) {
+        return _menus.push(_menu);
+      }
+      if (Array.isArray(_menu.children)) return _menus.push(..._menu.children);
+    });
+    return _menus;
   }
-  return menus;
+  return recursiveMenu(Routes);
 };
 
 export default defineComponent({
@@ -95,7 +87,6 @@ export default defineComponent({
       state.openKeys = openKeys;
     };
     const menus = useFilterMenus();
-
     return {
       ...toRefs(state),
       menus,
@@ -116,7 +107,7 @@ export default defineComponent({
   },
   render() {
     const {
-      config,
+      $config,
       collapsed,
       menus,
       openKeys,
@@ -129,20 +120,18 @@ export default defineComponent({
       <a-menu
         class="layouy__menu"
         multiple={true}
-        theme={config?.menus?.theme}
+        theme={$config?.menus?.theme}
         openKeys={openKeys}
         selectedKeys={selectedKeys}
         onOpenChange={handleOpenChange}
         mode="inline"
         inlineCollapsed={collapsed}
       >
-        {menus.map(_menu => {
-          if (_menu.children && _menu.children.length) {
-            return renderSubMenu(_menu);
-          } else {
-            return renderMenuItem(_menu);
-          }
-        })}
+        {menus.map(_menu =>
+          _menu.children && _menu.children.length
+            ? renderSubMenu(_menu)
+            : renderMenuItem(_menu),
+        )}
       </a-menu>
     );
   },

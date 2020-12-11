@@ -11,8 +11,6 @@ import { Routes, Config } from "@dark/config";
 
 import DarkComponents from "./components/Darks";
 
-import stores from "@/common/core/store";
-
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes: Routes,
@@ -21,8 +19,7 @@ const router = createRouter({
 const app = createApp(App)
   .use(store)
   .use(router)
-  .use(Antd)
-  .use(stores);
+  .use(Antd);
 
 DarkComponents.map((item: any) => {
   app.component(item.name, item.component);
