@@ -1,7 +1,8 @@
 <script lang="tsx">
-import { defineComponent, PropType, reactive, ref } from "vue";
+import { computed, defineComponent, PropType, reactive, ref } from "vue";
 import Line from "@/components/Charts/Line.vue";
 import Bar from "@/components/Charts/Bar.vue";
+import BaseChart from "@/components/Charts/Base.vue";
 const useCount = () => {
   const count = ref(0);
   const addCount = () => {
@@ -25,13 +26,13 @@ const TabConatiner = defineComponent({
   setup(props, { emit }) {
     return () => (
       <a-tabs onChange={(...args: any[]) => emit("change", ...args)}>
-        {() =>
-          props.columns.map(tab => (
+        {props.columns.map(tab => {
+          return (
             <a-tab-pane key={tab.id} tab={tab.label}>
-              <tab.components />
+              {tab.components}
             </a-tab-pane>
-          ))
-        }
+          );
+        })}
       </a-tabs>
     );
   },
@@ -57,32 +58,38 @@ export default defineComponent({
         { year: "1958 年", value: 48 },
       ],
     });
-    const tabsList = [
+    const tabsList = computed(() => [
+      {
+        id: "11",
+        label: "切换页-1",
+        components: <BaseChart />,
+      },
+      {
+        id: "12",
+        label: "切换页0",
+        components: <BaseChart />,
+      },
       {
         id: "1",
-        data: "lineData",
         label: "切换页1",
         components: <Line data-source={state.lineData} />,
       },
       {
         id: "2",
-        data: "barData",
         label: "切换页2",
         components: <Bar data-source={state.barData} />,
       },
       {
         id: "3",
-        data: "lineData",
         label: "切换页3",
         components: <Line data-source={state.lineData} />,
       },
       {
         id: "4",
         label: "切换页4",
-        data: "barData",
         components: <Bar data-source={state.barData} />,
       },
-    ];
+    ]);
     const fetchApi = () => {
       state.lineData = state.lineData.map(k => ({
         ...k,
@@ -105,6 +112,7 @@ export default defineComponent({
   },
   methods: {
     changeData() {
+      console.log("执行； ");
       this.fetchApi();
     },
     handleTabSwitch() {
@@ -115,6 +123,7 @@ export default defineComponent({
     const { count, tabsList, addCount, handleTabSwitch, changeData } = this;
     return (
       <div>
+        <BaseChart />
         <p>{count}</p>
         <a-button onClick={addCount}>点击</a-button>
         <a-button onClick={changeData}>修改数据</a-button>

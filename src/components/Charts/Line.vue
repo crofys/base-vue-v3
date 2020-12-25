@@ -7,12 +7,17 @@ export default defineComponent({
   props: {
     dataSource: {
       type: Array as PropType<Options["data"]>,
-      required: true,
+      required: false,
       default: () => [],
+    },
+    options: {
+      type: Object as PropType<Options>,
+      required: false,
+      default: () => ({}),
     },
   },
   setup(props) {
-    const chartRef = ref();
+    const chartRef = ref(); // chart 元素
     const chartInstance = ref();
     nextTick(() => {
       chartInstance.value = new Line(chartRef.value, {
@@ -22,13 +27,14 @@ export default defineComponent({
       });
       chartInstance.value.render();
     });
+
+    // 根据传入的 数据 渲染
     watch(
-      props,
+      () => props.dataSource,
       () => {
         chartInstance.value.changeData(props.dataSource);
       },
       {
-        // immediate: true,
         deep: true,
       },
     );
