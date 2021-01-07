@@ -1,7 +1,7 @@
-import { defineComponent, reactive, toRaw } from "vue";
+import { defineComponent, reactive, ref, toRaw } from "vue";
 import { useForm } from "@ant-design-vue/use";
-import FormItemTemplate from "../ValueType/index";
 import SearchBtn from "./SearchBtn";
+import FormItem from "./FormItem";
 
 import "./index.less";
 
@@ -15,7 +15,10 @@ const FormLayout = {
 export default defineComponent({
   props: {
     modelValue: Object,
-    searchColumns: Array,
+    columns: {
+      type: Array,
+      required: true,
+    },
     onSearch: {
       type: Function,
       required: false,
@@ -37,90 +40,62 @@ export default defineComponent({
       collapsed: true, // true 展开 ；false 收起
     };
   },
-  setup(props, context) {
+  setup(props, { emit, slots }) {
     const formRef: any = reactive(props.modelValue || {});
     const rulesRef: any = reactive({});
+    const collapsed = ref(true);
 
-    props.searchColumns?.map((search: any) => {
+    props.columns?.map((search: any) => {
       if (search.rules && Array.isArray((rulesRef[search.id] = search.rules))) {
         rulesRef[search.id] = search.rules;
       }
     });
-    const { resetFields, validate, validateInfos } = useForm(formRef, rulesRef);
+    const { resetFields, validate } = useForm(formRef, rulesRef);
+
     const onSubmit = (e: Event) => {
       e.preventDefault();
 
       validate()
         .then(() => {
           if (props.onSearch) props.onSearch(formRef);
-          context.emit("update:modelValue", formRef);
+          emit("update:modelValue", formRef);
           console.log("搜索参数", formRef, toRaw(formRef));
         })
         .catch(err => {
           console.log("error", err);
         });
     };
-    return {
-      formRef,
-      validate,
-      validateInfos,
-      resetFields,
-      onSubmit,
+
+    const handleClickTriggerSearchBar = () => {
+      collapsed.value = !collapsed.value;
     };
-  },
 
-  computed: {
-    isRenderLayout(): boolean {
-      return !!this.searchColumns?.length;
-    },
-  },
-  methods: {
-    handleClickTriggerSearchBar() {
-      this.collapsed = !this.collapsed;
-    },
-  },
-  render() {
-    const { isShowColspan } = this.$props;
-    const { collapsed } = this.$data;
-    const { formRef, searchColumns, isRenderLayout } = this;
-    return (
-      isRenderLayout && (
-        <a-form model={formRef} {...FormLayout}>
-          <a-row class="search-warp" gutter={48}>
-            {searchColumns?.map((column: any, index: number) => {
-              const isRender = !collapsed ? index <= 1 : true;
-              const _valueType = column.valueType || "default";
-              const _formItemTemplate = (FormItemTemplate as any)[_valueType];
+    return () => {
+      const { columns } = props;
+      const isRenderSearch = !!columns?.length;
 
-              if (!_formItemTemplate) return;
-
-              const renderFn = _formItemTemplate["Search"];
-              if (!renderFn) return "";
-
-              return (
-                isRender && (
-                  <a-col key={column.dataIndex}>
-                    <a-form-item ref="name" label={column.title}>
-                      {renderFn(column)}
-                    </a-form-item>
-                  </a-col>
-                )
-              );
-            })}
-            {this.$slots.btn ? (
-              this.$slots.btn({ onSubmit: this.onSubmit })
-            ) : (
-              <SearchBtn
-                resetFields={this.resetFields}
-                onSubmit={this.onSubmit}
-                handleClickTriggerSearchBar={this.handleClickTriggerSearchBar}
-                isShowColspan={isShowColspan}
-                collapsed={collapsed}
-              />
-            )}
-          </a-row>
-        </a-form>
-      )
-    );
+      return (
+        isRenderSearch && (
+          <section class="search-warp">
+            <a-form model={formRef} {...FormLayout}>
+              {/* <a-row class="search-warp" gutter={48}> */}
+              <FormItem columns={columns} isCollapsed={collapsed.value} />
+              {slots.btn ? (
+                slots.btn({ onSubmit })
+              ) : (
+                <SearchBtn
+                  resetFields={resetFields}
+                  onSubmit={onSubmit}
+                  handleClickTriggerSearchBar={handleClickTriggerSearchBar}
+                  isShowColspan={props.isShowColspan}
+                  collapsed={collapsed}
+                />
+              )}
+              {/* </a-row> */}
+            </a-form>
+          </section>
+        )
+      );
+    };
   },
 });

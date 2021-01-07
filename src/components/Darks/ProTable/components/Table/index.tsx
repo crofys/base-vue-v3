@@ -1,10 +1,8 @@
 import { defineComponent, reactive, ref, toRefs } from "vue";
+import { defaultTableProps } from "ant-design-vue/es/table/Table";
 
 // 类库 包
 import { useRequest } from "@/common/hooks";
-
-// 组件
-import Search from "../Search/index";
 
 // 类型文件
 import { TValueType, ISearch } from "../../types/index";
@@ -22,6 +20,7 @@ export interface IColumns {
 
 export default defineComponent({
   props: {
+    ...defaultTableProps,
     columns: {
       required: true,
       type: Object,
@@ -100,26 +99,18 @@ export default defineComponent({
     },
   },
   render() {
-    const { dataList, params, loading, _pagination } = this;
-    const { columns, tableProps, searchProps } = this.$props;
+    const { dataList, loading, _pagination } = this;
+    const { columns, tableProps } = this.$props;
     return (
-      <div class="pro-table">
-        <Search
-          v-model={params}
-          searchColumns={columns.searchColumns}
-          onSearch={this.run}
-          {...searchProps}
-        />
-        <a-table
-          columns={columns.tableColumns}
-          dataSource={dataList}
-          loading={loading}
-          pagination={_pagination}
-          onChange={this.handleTableChange}
-          vSlots={this.$slots}
-          {...tableProps}
-        ></a-table>
-      </div>
+      <a-table
+        columns={columns.tableColumns}
+        dataSource={dataList}
+        loading={loading}
+        pagination={_pagination}
+        onChange={this.handleTableChange}
+        vSlots={this.$slots}
+        {...tableProps}
+      ></a-table>
     );
   },
 });

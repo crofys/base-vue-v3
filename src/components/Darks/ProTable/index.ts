@@ -1,5 +1,5 @@
-import Table from "./components/Table";
+import ProTable from "./main";
 
 export * from "./hooks/useProTable";
 
-export default Table;
+export default ProTable;

@@ -1,0 +1,11 @@
+.search-warp {
+  background: #fff;
+  margin: 0 0 20px 0 !important;
+  border-radius: 5px;
+  padding: 20px 20px 0 20px;
+}
+.search-warp .table-page-search-submitButtons {
+  display: block;
+  margin-bottom: 24px;
+  white-space: nowrap;
+}

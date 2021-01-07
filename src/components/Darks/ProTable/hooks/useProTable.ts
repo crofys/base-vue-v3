@@ -1,5 +1,4 @@
 import { reactive } from "vue";
-import { useColumns } from "./useColumns";
 import { IColumns } from "../types";
 import { isObject } from "lodash";
 
@@ -20,9 +19,8 @@ const initTableProps = {
   bordered: true,
 };
 export const useProTable = (options: TUseProTable) => {
-  const { columns, ..._options } = reactive(options);
+  const { ..._options } = reactive(options);
   const { pagination = {}, tableProps = {} } = _options;
-  const _columns = useColumns(columns);
 
   // 如果`pagination`为 对象类型 则初始化分页数据
   if (isObject(pagination)) {
@@ -38,7 +36,6 @@ export const useProTable = (options: TUseProTable) => {
   }
 
   return {
-    columns: _columns,
     ..._options,
   };
 };
