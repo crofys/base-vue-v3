@@ -1,4 +1,4 @@
-import { defineComponent, reactive, ref } from "vue";
+import { defineComponent, PropType, reactive, ref } from "vue";
 
 // 类库 包
 import { useRequest } from "@/common/hooks";
@@ -6,27 +6,19 @@ import { useColumns } from "./hooks/useColumns";
 
 // 组件
 import Search from "./components/Search/index";
-// import Table from "./components/Table/index";
+import Table from "./components/Table/index";
 
 import { isFunction, isObject } from "lodash";
 
 // 类型文件
-import { TValueType, ISearch } from "./types/index";
+import { IColumns } from "./types/index";
 import "./index.less";
-
-export interface IColumns {
-  hideInSearch?: boolean;
-  hideInTable?: boolean;
-  searchOption?: any | ISearch;
-  valueType?: TValueType;
-  [x: string]: any;
-}
 
 export default defineComponent({
   props: {
     columns: {
       required: true,
-      type: Array,
+      type: Array as PropType<IColumns[]>,
       default: () => [],
     },
     request: {
@@ -46,7 +38,7 @@ export default defineComponent({
       type: Object,
     },
   },
-  setup(props) {
+  setup(props, { slots }) {
     const params = ref({});
 
     const state = reactive({
@@ -66,23 +58,37 @@ export default defineComponent({
       },
       {
         onSuccess(res) {
+          console.log("数据请求成功", res);
           state.dataList = res?.data;
           state.total = res?.count;
         },
       },
     );
-    console.log(tableColumns, loading);
+    const handleTableChange = (pagination: any) => {
+      const { current: page, pageSize } = pagination;
+      params.value = Object.assign({}, params, { page, pageSize });
+      run();
+    };
 
     return () => {
-      const { searchProps } = props;
+      const { searchProps, ...tableProps } = props;
       return (
         <div class="pro-table">
           <Search
-            v-model={params}
+            v-model={params.value}
             columns={searchColumns}
             onSearch={run}
             {...searchProps}
           />
+          <Table
+            {...tableProps}
+            columns={tableColumns}
+            dataSource={state.dataList}
+            loading={loading.value}
+            onChange={handleTableChange}
+          >
+            {slots}
+          </Table>
         </div>
       );
     };

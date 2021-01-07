@@ -1,12 +1,10 @@
 import { reactive } from "vue";
-import { IColumns } from "../types";
+import { IColumns, TAntTableProps } from "../types";
 import { isObject } from "lodash";
 
-type TUseProTable = {
+type TUseProTable = TAntTableProps & {
   columns: IColumns[];
   request: (...args: any[]) => any;
-  pagination?: any;
-  tableProps?: any;
   searchProps?: any;
 };
 
@@ -19,23 +17,16 @@ const initTableProps = {
   bordered: true,
 };
 export const useProTable = (options: TUseProTable) => {
-  const { ..._options } = reactive(options);
-  const { pagination = {}, tableProps = {} } = _options;
-
-  // 如果`pagination`为 对象类型 则初始化分页数据
-  if (isObject(pagination)) {
-    _options.pagination = Object.assign({}, initPagination, pagination);
-  }
-  // 如果`tables`为 对象类型
-  if (isObject(tableProps)) {
-    _options.tableProps = Object.assign(
+  const optsReactive = reactive(
+    Object.assign(
       {},
+      options,
       initTableProps,
-      _options.tableProps,
-    );
-  }
+      isObject(options.pagination) && {
+        pagination: Object.assign({}, initPagination, options.pagination),
+      },
+    ),
+  );
 
-  return {
-    ..._options,
-  };
+  return optsReactive;
 };
