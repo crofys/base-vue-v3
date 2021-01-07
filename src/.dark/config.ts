@@ -14,8 +14,16 @@ export const Routes = [
         "meta": {
           "title": "首页"
         },
-        "component": ()=> import(/* webpackChunkName: 'home' */ '@/views/Home/index.vue')
-      }
+        "component": ()=> import(/* webpackChunkName: 'home' */ '@/views/Home/index.tsx')
+      },
+      {
+        "path": "/list",
+        "name": "list",
+        "meta": {
+          "title": "列表"
+        },
+        "component": ()=> import(/* webpackChunkName: 'list' */ '@/views/List/index.vue')
+      },
     ]
   },
   {

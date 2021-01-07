@@ -1,6 +1,6 @@
 const path = require("path");
-const DefineConfig = require("@crofys/dark-define-config");
 // const DefineConfig = require("/Users/xuchangjian/workspace/Plugins/WebpackPlugin/lib/index.cjs");
+const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 
 module.exports = {
   outputDir: "dist",
@@ -51,6 +51,6 @@ module.exports = {
         "@dark": path.resolve(__dirname, "src/.dark/"),
       },
     },
-    plugins: [new DefineConfig()],
+    plugins: [new MonacoWebpackPlugin()],
   },
 };

@@ -5,6 +5,13 @@ import SearchBtn from "./SearchBtn";
 
 import "./index.less";
 
+const FormLayout = {
+  sm: 24,
+  md: 8,
+  xxl: 6,
+  layout: "inline",
+};
+
 export default defineComponent({
   props: {
     modelValue: Object,
@@ -19,13 +26,8 @@ export default defineComponent({
       required: false,
       default: true,
     },
-    // 搜索表单的组件属性 同 ant design vue属性
+    // 搜索表单的组件属性 同 ant design vue 属性
     formProps: {
-      type: Object,
-      required: false,
-    },
-    // 搜索项 布局
-    layout: {
       type: Object,
       required: false,
     },
@@ -76,57 +78,30 @@ export default defineComponent({
     handleClickTriggerSearchBar() {
       this.collapsed = !this.collapsed;
     },
-    filterSearchProps() {
-      const { layout, formProps } = this.$props;
-      const _layout = layout || {
-        sm: 24,
-        md: 8,
-        xxl: 6,
-      };
-      const _formsProps = Object.assign(
-        {
-          labelAlign: "left",
-        },
-        formProps,
-      );
-
-      return {
-        _formsProps,
-        _layout,
-      };
-    },
   },
-
   render() {
-    const { _formsProps, _layout } = this.filterSearchProps();
     const { isShowColspan } = this.$props;
     const { collapsed } = this.$data;
     const { formRef, searchColumns, isRenderLayout } = this;
-
     return (
       isRenderLayout && (
-        <a-form model={formRef} layout="inline" {..._formsProps}>
+        <a-form model={formRef} {...FormLayout}>
           <a-row class="search-warp" gutter={48}>
-            {searchColumns?.map((item: any, index: number) => {
+            {searchColumns?.map((column: any, index: number) => {
               const isRender = !collapsed ? index <= 1 : true;
-              const _valueType = item.valueType || "default";
+              const _valueType = column.valueType || "default";
               const _formItemTemplate = (FormItemTemplate as any)[_valueType];
 
               if (!_formItemTemplate) return;
 
-              const Item = _formItemTemplate["Search"];
+              const renderFn = _formItemTemplate["Search"];
+              if (!renderFn) return "";
 
               return (
                 isRender && (
-                  <a-col {..._layout} key={item.dataIndex}>
-                    <a-form-item label={item.title} {..._formsProps}>
-                      <Item
-                        {...item}
-                        value={formRef[item.dataIndex]}
-                        change={(val: any) => {
-                          formRef[item.dataIndex] = val;
-                        }}
-                      />
+                  <a-col key={column.dataIndex}>
+                    <a-form-item ref="name" label={column.title}>
+                      {renderFn(column)}
                     </a-form-item>
                   </a-col>
                 )
