@@ -21,15 +21,12 @@ export default defineComponent({
         const isRender = !isCollapsed ? index <= 1 : true;
         const _valueType = column.valueType || "default";
         const _formItemTemplate = (FormItemTemplate as any)[_valueType];
-
         if (!_formItemTemplate) return;
-
         const renderFn = _formItemTemplate["Search"];
         if (!renderFn) return "";
-
         return (
           isRender && (
-            <a-form-item key={index} label={column.title}>
+            <a-form-item ref="name" key={index} label={column.title}>
               {renderFn(column)}
             </a-form-item>
           )

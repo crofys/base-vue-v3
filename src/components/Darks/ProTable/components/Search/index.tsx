@@ -1,4 +1,4 @@
-import { defineComponent, reactive, ref, toRaw } from "vue";
+import { defineComponent, PropType, reactive, ref, toRaw } from "vue";
 import { useForm } from "@ant-design-vue/use";
 import SearchBtn from "./SearchBtn";
 import FormItem from "./FormItem";
@@ -14,6 +14,11 @@ const FormLayout = {
 
 export default defineComponent({
   props: {
+    model: {
+      type: Object as PropType<any>,
+      default: () => ({}),
+      required: true,
+    },
     modelValue: Object,
     columns: {
       type: Array,
@@ -71,13 +76,17 @@ export default defineComponent({
     };
 
     return () => {
-      const { columns } = props;
+      const { columns, model } = props;
       const isRenderSearch = !!columns?.length;
-
       return (
         isRenderSearch && (
           <section class="search-warp">
-            <a-form model={formRef} {...FormLayout}>
+            <a-form
+              ref={formRef.value}
+              {...props}
+              model={model}
+              {...FormLayout}
+            >
               {/* <a-row class="search-warp" gutter={48}> */}
               <FormItem columns={columns} isCollapsed={collapsed.value} />
               {slots.btn ? (
