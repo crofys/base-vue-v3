@@ -1,4 +1,4 @@
-import { defineComponent, PropType, reactive, ref } from "vue";
+import { defineComponent, PropType, reactive } from "vue";
 
 // 类库 包
 import { useRequest } from "@/common/hooks";
@@ -39,7 +39,7 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
-    const params = ref({});
+    const params = reactive<any>({});
 
     const state = reactive({
       dataList: [],
@@ -49,7 +49,7 @@ export default defineComponent({
     const { tableColumns, searchColumns } = useColumns(props.columns as any[]);
     // pagination 有参数 则分页设置
     if (isObject(props.pagination)) {
-      params.value = Object.assign(params.value, props.pagination);
+      params.pagination = Object.assign(params, props.pagination);
     }
 
     const { loading, run } = useRequest(
@@ -66,7 +66,7 @@ export default defineComponent({
     );
     const handleTableChange = (pagination: any) => {
       const { current: page, pageSize } = pagination;
-      params.value = Object.assign({}, params, { page, pageSize });
+      Object.assign({}, params, { page, pageSize });
       run();
     };
 

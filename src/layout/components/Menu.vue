@@ -127,7 +127,7 @@ export default defineComponent({
         mode="inline"
         inlineCollapsed={collapsed}
       >
-        {menus.map(_menu =>
+        {menus.map((_menu: any) =>
           _menu.children && _menu.children.length
             ? renderSubMenu(_menu)
             : renderMenuItem(_menu),

@@ -15,18 +15,18 @@ const initPagination = {
 const initTableProps = {
   rowKey: "id",
   bordered: true,
+  pagination: initPagination,
 };
 export const useProTable = (options: TUseProTable) => {
-  const optsReactive = reactive(
-    Object.assign(
+  const optsReactive = reactive(Object.assign({}, initTableProps, options));
+
+  if (isObject(options.pagination)) {
+    optsReactive.pagination = Object.assign(
       {},
-      options,
-      initTableProps,
-      isObject(options.pagination) && {
-        pagination: Object.assign({}, initPagination, options.pagination),
-      },
-    ),
-  );
+      initPagination,
+      options.pagination,
+    );
+  }
 
   return optsReactive;
 };
